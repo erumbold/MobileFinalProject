@@ -2,11 +2,22 @@
     <string name="app_name">Mobile Final Project</string>
     <string name="title_activity_map">Map</string>
 
+    <!-- MAIN MENU -->
+    <string name="menu_title">App Name</string>
+    <string name="menu_profile">View Profile</string>
+    <string name="menu_search">Search for Colleges</string>
+    <string name="menu_savedlist">View Saved Colleges</string>
+    <string name="menu_about">About the App</string>
+
+    <!-- ABOUT PAGE-->
+    <string name="about_title">About the App</string>
+    <string name="about_description">A long time ago in a galaxy far far away...</string>
+
     <!-- USER PROFILE -->
     <string name="profile_header">User Profile</string>
     <string name="profile_name">Name</string>
     <string name="profile_school">High School</string>
-    <string name="profile_savedlist">See Saved colleges</string>
+    <string name="profile_savedlist">See Saved Colleges</string>
 
     <!-- COLLEGE SEARCH -->
     <string name="search_header">College Search</string>

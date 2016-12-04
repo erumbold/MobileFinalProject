@@ -1,4 +1,4 @@
-package com.erikarumbold.finalproject;
+package com.rumboldfabbro.mobilefinalproject;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,27 +15,28 @@ import java.util.ArrayList;
 public class Database extends SQLiteOpenHelper {
     public static final String db_name = "myDB.db";
 
-    public static final String college_table_name = "colleges";
-    public static final String colleges_column_id = "id";
-    public static final String colleges_column_name = "name";
-    public static final String colleges_column_address = "address";
-    public static final String colleges_column_region = "region";
-    public static final String colleges_column_rank = "rank";
+    public static final String college_table_name = "Colleges";
+    public static final String colleges_column_id = "ID";
+    public static final String colleges_column_name = "Name";
+    public static final String colleges_column_state = "State";
+    public static final String colleges_column_address = "Address";
+    public static final String colleges_column_region = "Region";
+    public static final String colleges_column_rank = "Rank";
     public static final String colleges_column_NCAA = "NCAA";
-    public static final String colleges_column_tuition = "tuition";
+    public static final String colleges_column_tuition = "Tuition";
 
     public static final String cmlink_table_name = "cmlinks";
-    public static final String cmlink_column_id = "id";
-    public static final String cmlink_column_college = "college_id";
-    public static final String cmlink_column_major = "major_id";
+    public static final String cmlink_column_id = "ID";
+    public static final String cmlink_column_college = "CollegeID";
+    public static final String cmlink_column_major = "MajorID";
 
-    public static final String majors_table_name = "majors";
-    public static final String majors_column_id = "id";
-    public static final String majors_column_name = "name";
+    public static final String majors_table_name = "Majors";
+    public static final String majors_column_id = "ID";
+    public static final String majors_column_name = "Name";
 
-    public static final String ulist_table_name = "user_list";
-    public static final String ulist_column_id = "id";
-    public static final String ulist_column_name = "college_id";
+    public static final String ulist_table_name = "UserList";
+    public static final String ulist_column_id = "ID";
+    public static final String ulist_column_name = "CollegeID";
 
     public Database(Context context){
         super(context, db_name, null, 1);
@@ -43,35 +44,36 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table colleges "+"(id integer primary key, name text, address text, " +
-                "region text, rank text, NCAA text, tuition real)");
-        db.execSQL("create table majors "+"(id integer primary key, name text)");
-        db.execSQL("create table cmlinks "+"(id integer primary key, college_id integer, major_id integer)");
-        db.execSQL("create table ulist "+"(id integer primary key, college_id)");
+        db.execSQL("create table Colleges "+"(ID integer primary key, Name text, State text, Address text, " +
+                "Region text, Rank integer, NCAA text, Tuition real)");
+        db.execSQL("create table Majors "+"(ID integer primary key, Name text)");
+        db.execSQL("create table cmlinks "+"(ID integer primary key, CollegeID integer, MajorID integer)");
+        db.execSQL("create table UserList "+"(ID integer primary key, CollegeID)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldV, int newV){
-        db.execSQL("DROP TABLE IF EXISTS colleges");
-        db.execSQL("DROP TABLE IF EXISTS majors");
+        db.execSQL("DROP TABLE IF EXISTS Colleges");
+        db.execSQL("DROP TABLE IF EXISTS Majors");
         db.execSQL("DROP TABLE IF EXISTS cmlinks");
-        db.execSQL("DROP TABLE IF EXISTS ulist");
+        db.execSQL("DROP TABLE IF EXISTS UserList");
         onCreate(db);
     }
 
-    public boolean insertCollege(String name, String address, String region, String rank,
+    public boolean insertCollege(String name, String state, String address, String region, int rank,
                                  String NCAA, double tuition){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("name", name);
-        contentValues.put("address", address);
-        contentValues.put("region", region);
-        contentValues.put("rank", rank);
+        contentValues.put("Name", name);
+        contentValues.put("State", state);
+        contentValues.put("Address", address);
+        contentValues.put("Region", region);
+        contentValues.put("Rank", rank);
         contentValues.put("NCAA", NCAA);
-        contentValues.put("tuition", tuition);
+        contentValues.put("Tuition", tuition);
 
-        db.insert("colleges", null, contentValues);
+        db.insert("Colleges", null, contentValues);
         return true;
     }
 
@@ -79,9 +81,9 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("name", name);
+        contentValues.put("Name", name);
 
-        db.insert("majors", null, contentValues);
+        db.insert("Majors", null, contentValues);
         return true;
     }
 
@@ -89,8 +91,8 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("college_id", college_id);
-        contentValues.put("major_id", major_id);
+        contentValues.put("CollegeID", college_id);
+        contentValues.put("MajorID", major_id);
 
         db.insert("cmlinks", null, contentValues);
         return true;
@@ -100,9 +102,9 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("college_id", college_id);
+        contentValues.put("CollegeID", college_id);
 
-        db.insert("user_list", null, contentValues);
+        db.insert("UserList", null, contentValues);
         return true;
     }
 
@@ -115,31 +117,32 @@ public class Database extends SQLiteOpenHelper {
     public int numberOfRows(String table){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = 0;
-        if (table.equals("colleges")){
+        if (table.equals("Colleges")){
             numRows = (int) DatabaseUtils.queryNumEntries(db, college_table_name);
-        } else if (table.equals("majors")){
+        } else if (table.equals("Majors")){
             numRows = (int) DatabaseUtils.queryNumEntries(db, majors_table_name);
         } else if (table.equals("cmlinks")){
             numRows = (int) DatabaseUtils.queryNumEntries(db, cmlink_table_name);
-        } else if (table.equals("user_list")){
+        } else if (table.equals("UserList")){
             numRows = (int) DatabaseUtils.queryNumEntries(db, ulist_table_name);
         }
         return numRows;
     }
 
-    public boolean updateCollege(Integer id, String name, String address, String region, String rank,
-                                 String NCAA, double tuition){
+    public boolean updateCollege(Integer id, String name, String state, String address,
+                                 String region, int rank, String NCAA, double tuition){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("name", name);
-        contentValues.put("address", address);
-        contentValues.put("region", region);
-        contentValues.put("rank", rank);
+        contentValues.put("Name", name);
+        contentValues.put("Address", address);
+        contentValues.put("State", state);
+        contentValues.put("Region", region);
+        contentValues.put("Rank", rank);
         contentValues.put("NCAA", NCAA);
-        contentValues.put("tuition", tuition);
+        contentValues.put("Tuition", tuition);
 
-        db.update("colleges", contentValues, "id= ? ", new String[] {Integer.toString(id)});
+        db.update("Colleges", contentValues, "id= ? ", new String[] {Integer.toString(id)});
         return true;
     }
 
@@ -147,9 +150,9 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("name", name);
+        contentValues.put("Name", name);
 
-        db.update("majors", contentValues, "id= ? ", new String[] {Integer.toString(id)});
+        db.update("Majors", contentValues, "id= ? ", new String[] {Integer.toString(id)});
         return true;
     }
 
@@ -157,8 +160,8 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("college_id", college_id);
-        contentValues.put("major_id", major_id);
+        contentValues.put("CollegeID", college_id);
+        contentValues.put("MajorID", major_id);
 
         db.update("cmlinks", contentValues, "id= ? ", new String[] {Integer.toString(id)});
         return true;
@@ -168,20 +171,20 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("college_id", college_id);
+        contentValues.put("CollegeID", college_id);
 
-        db.update("user_list", contentValues, "id= ? ", new String[] {Integer.toString(id)});
+        db.update("UserList", contentValues, "id= ? ", new String[] {Integer.toString(id)});
         return true;
     }
 
     public Integer deleteCollege(Integer id){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("colleges", "id = ? ", new String[] {Integer.toString(id)});
+        return db.delete("Colleges", "id = ? ", new String[] {Integer.toString(id)});
     }
 
     public Integer deleteMajor(Integer id){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("majors", "id = ? ", new String[] {Integer.toString(id)});
+        return db.delete("Majors", "id = ? ", new String[] {Integer.toString(id)});
     }
 
     public Integer deleteCmlink(Integer id){
@@ -191,27 +194,33 @@ public class Database extends SQLiteOpenHelper {
 
     public Integer deleteUlist(Integer id){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("user_list", "id = ? ", new String[] {Integer.toString(id)});
+        return db.delete("UserList", "id = ? ", new String[] {Integer.toString(id)});
     }
 
-    public ArrayList<String> getAll(String table){
+    public ArrayList<String> listMajors(){
         ArrayList<String> arrayList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from "+table+"", null);
+        Cursor res = db.rawQuery("select * from Majors", null);
         res.moveToFirst();
 
         while(!res.isAfterLast()){
-            if (table.equals("colleges")){
-                arrayList.add(res.getString(res.getColumnIndex(colleges_column_name)));
-            } else if (table.equals("majors")){
-                arrayList.add(res.getString(res.getColumnIndex(majors_column_name)));
-            } else if (table.equals("cmlinks")){
-                arrayList.add(res.getString(res.getColumnIndex(cmlink_column_college)));
-            } else if (table.equals("user_list")){
-                arrayList.add(res.getString(res.getColumnIndex(ulist_column_name)));
-            }
+            arrayList.add(res.getString(res.getColumnIndex(majors_column_name)));
             res.moveToNext();
         }
+        return arrayList;
+    }
+
+    public ArrayList<String> listAttributes(){
+        ArrayList<String> arrayList = new ArrayList<String>();
+
+        arrayList.add(colleges_column_name);
+        arrayList.add(colleges_column_address);
+        arrayList.add(colleges_column_state);
+        arrayList.add(colleges_column_region);
+        arrayList.add(colleges_column_rank);
+        arrayList.add(colleges_column_NCAA);
+        arrayList.add(colleges_column_tuition);
+
         return arrayList;
     }
 }
