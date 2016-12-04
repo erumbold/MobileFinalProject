@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Mobile Final Project</string>
+    <string name="title_activity_map">Map</string>
+
+    <!-- USER PROFILE -->
+    <string name="profile_header">User Profile</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_school">High School</string>
+    <string name="profile_savedlist">See Saved colleges</string>
+
+    <!-- COLLEGE SEARCH -->
+    <string name="search_header">College Search</string>
+    <string name="search_byterm">Search by term:</string>
+    <string name="search_searchbar">Search</string>
+    <string name="search_submit">Submit</string>
+    <string name="search_bymajor">Or search by major: </string>
 </resources>

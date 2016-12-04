@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="@string/profile_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/profile_header"
+        android:textSize="30sp"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="@string/profile_name"
+        android:ems="10"
+        android:layout_below="@+id/profile_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="84dp"
+        android:id="@+id/profile_name"
+        android:textSize="18sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="@string/profile_school"
+        android:ems="10"
+        android:layout_marginTop="30dp"
+        android:id="@+id/profile_school"
+        android:layout_below="@+id/profile_name"
+        android:layout_alignLeft="@+id/profile_name"
+        android:layout_alignStart="@+id/profile_name" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="9dp"
+        android:layout_marginEnd="9dp"
+        android:id="@+id/profile_major" />
+
+    <Button
+        android:text="@string/profile_savedlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_major"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
+        android:id="@+id/profile_savedlist" />
+</RelativeLayout>
