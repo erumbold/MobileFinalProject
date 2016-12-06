@@ -1,6 +1,7 @@
 package com.rumboldfabbro.mobilefinalproject;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ public class SearchActivity extends Activity{
     private EditText searchbar;
     private Spinner attribute, major;
     private Button attribute_submit, major_submit;
+    private Database db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,10 @@ public class SearchActivity extends Activity{
         major = (Spinner) findViewById(R.id.search_major);
         attribute_submit = (Button) findViewById(R.id.search_submit1);
         major_submit = (Button) findViewById(R.id.search_submit2);
+
+        db = new Database(this);
+
+        SQLiteDatabase database = db.getReadableDatabase();
 
         loadSpinnerData();
 
@@ -77,4 +83,6 @@ public class SearchActivity extends Activity{
                 //TODO
         }
     }
+
+
 }

@@ -44,8 +44,8 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table Colleges "+"(ID integer primary key, Name text, State text, Address text, " +
-                "Region text, Rank integer, NCAA text, Tuition real)");
+        db.execSQL("create table Colleges "+"(ID integer primary key, Name text, State text, Latitude integer, Longitude integer, Address text, " +
+                "Region text, NCAA text, Tuition real)");
         db.execSQL("create table Majors "+"(ID integer primary key, Name text)");
         db.execSQL("create table cmlinks "+"(ID integer primary key, CollegeID integer, MajorID integer)");
         db.execSQL("create table UserList "+"(ID integer primary key, CollegeID)");
@@ -60,7 +60,7 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertCollege(String name, String state, String address, String region, int rank,
+    public boolean insertCollege(String name, String state, String address, double latitude, double longitude, String region,
                                  String NCAA, double tuition){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -69,7 +69,6 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put("State", state);
         contentValues.put("Address", address);
         contentValues.put("Region", region);
-        contentValues.put("Rank", rank);
         contentValues.put("NCAA", NCAA);
         contentValues.put("Tuition", tuition);
 
@@ -129,16 +128,17 @@ public class Database extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateCollege(Integer id, String name, String state, String address,
-                                 String region, int rank, String NCAA, double tuition){
+    public boolean updateCollege(Integer id, String name, String state, String address, int latitude, int longitude,
+                                 String region, String NCAA, double tuition){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("Name", name);
         contentValues.put("Address", address);
+        contentValues.put("Latitude", latitude);
+        contentValues.put("Longitude", longitude);
         contentValues.put("State", state);
         contentValues.put("Region", region);
-        contentValues.put("Rank", rank);
         contentValues.put("NCAA", NCAA);
         contentValues.put("Tuition", tuition);
 
