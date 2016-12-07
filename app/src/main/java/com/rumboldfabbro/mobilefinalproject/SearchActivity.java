@@ -1,7 +1,7 @@
 package com.rumboldfabbro.mobilefinalproject;
 
 import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +20,8 @@ public class SearchActivity extends Activity{
     private EditText searchbar;
     private Spinner attribute, major;
     private Button attribute_submit, major_submit;
-    private Database db;
+    private String searchbar_entry, attribute_entry, major_entry;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,30 +34,26 @@ public class SearchActivity extends Activity{
         attribute_submit = (Button) findViewById(R.id.search_submit1);
         major_submit = (Button) findViewById(R.id.search_submit2);
 
-        db = new Database(this);
-
-        SQLiteDatabase database = db.getReadableDatabase();
-
         loadSpinnerData();
 
         searchbar.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus){
-                //TODO
+                searchbar_entry = searchbar.getText().toString();
             }
         });
 
         attribute_submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //TODO
+                launchList1(v);
             }
         });
 
         major_submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //TODO
+                launchList2(v);
             }
         });
     }
@@ -78,11 +75,24 @@ public class SearchActivity extends Activity{
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
         switch (parent.getId()){
             case R.id.search_attribute:
-                //TODO
+                attribute_entry = attribute.toString();
+                break;
             case R.id.search_major:
-                //TODO
+                major_entry = major.toString();
+                break;
         }
     }
 
+    public void launchList1(View v){
+        Intent search = new Intent(this, ListActivity.class);
+        search.putExtra("search", searchbar_entry);
+        search.putExtra("attribute", attribute_entry);
+        startActivity(search);
+    }
 
+    public void launchList2(View v){
+        Intent search = new Intent(this, ListActivity.class);
+        search.putExtra("major", major_entry);
+        startActivity(search);
+    }
 }

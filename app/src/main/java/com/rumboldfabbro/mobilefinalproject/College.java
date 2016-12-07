@@ -13,10 +13,11 @@ public class College {
     private String region;
     private String NCAA;
     private double tuition;
+    private String description;
 
     public College(){}
 
-    public College(int id, String name, String address, double latitude, double longitude, String region, String NCAA, double tuition){
+    public College(int id, String name, String address, double latitude, double longitude, String region, String NCAA, double tuition, String description){
         this.id = id;
         this.name = name;
         this.address = address;
@@ -25,6 +26,7 @@ public class College {
         this.region = region;
         this.NCAA = NCAA;
         this.tuition = tuition;
+        this.description = description;
     }
 
     public void setId(int id){this.id = id;}
@@ -35,6 +37,7 @@ public class College {
     public void setRegion(String region){this.region = region;}
     public void setNCAA(String NCAA){this.NCAA = NCAA;}
     public void setTuition(double tuition){this.tuition = tuition;}
+    public void setDescription(String description){this.description = description;}
 
     public int getId(){return this.id;}
     public String getName(){return this.name;}
@@ -44,4 +47,5 @@ public class College {
     public String getRegion(){return this.region;}
     public String getNCAA(){return this.NCAA;}
     public double getTuition(){return this.tuition;}
+    public String getDescription(){return this.description;}
 }

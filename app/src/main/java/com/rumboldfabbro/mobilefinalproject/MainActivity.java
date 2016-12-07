@@ -69,12 +69,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void activateUserList(View v){
-        Intent launchUserList = new Intent(this, SearchActivity.class);
+        Intent launchUserList = new Intent(this, UserListActivity.class);
         startActivity(launchUserList);
     }
 
     public void activateAbout(View v){
-        Intent launchAbout = new Intent(this, SearchActivity.class);
+        Intent launchAbout = new Intent(this, AboutActivity.class);
         startActivity(launchAbout);
     }
 }
