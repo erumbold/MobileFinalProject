@@ -41,7 +41,6 @@ public class ProfileActivity extends Activity {
         name.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus){
-                //TODO change user's name in saved preferences
                 myEd.putString("name", name.getText().toString());
             }
         });
@@ -49,7 +48,6 @@ public class ProfileActivity extends Activity {
         school.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus){
-                //TODO change user's high school in saved preferences
                 myEd.putString("school", school.getText().toString());
             }
         });
@@ -57,9 +55,6 @@ public class ProfileActivity extends Activity {
         saved_list.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
-                //TODO activate AboutActivity
-                //save list to preferences
                 myEd.commit();
 
             }
@@ -79,9 +74,6 @@ public class ProfileActivity extends Activity {
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
         String major = parent.getItemAtPosition(position).toString();
-        //TODO change user's intended major in saved preferences
-
-        //what do we use to get a string from the spinner?
         myEd.putString("major", major);
 
     }

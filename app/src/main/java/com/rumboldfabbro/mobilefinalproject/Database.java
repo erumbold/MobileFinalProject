@@ -13,6 +13,8 @@ import java.util.ArrayList;
  */
 
 public class Database extends SQLiteOpenHelper {
+
+    //TODO populate cmlinks and Majors tables
     public static final String db_name = "myDB.db";
 
     public static final String college_table_name = "Colleges";
@@ -24,6 +26,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String colleges_column_rank = "Rank";
     public static final String colleges_column_NCAA = "NCAA";
     public static final String colleges_column_tuition = "Tuition";
+    public static final String colleges_column_description = "Description";
 
     public static final String cmlink_table_name = "cmlinks";
     public static final String cmlink_column_id = "ID";
@@ -45,7 +48,7 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table Colleges "+"(ID integer primary key, Name text, State text, Latitude integer, Longitude integer, Address text, " +
-                "Region text, NCAA text, Tuition real)");
+                "Region text, NCAA text, Tuition real, Description text)");
         db.execSQL("create table Majors "+"(ID integer primary key, Name text)");
         db.execSQL("create table cmlinks "+"(ID integer primary key, CollegeID integer, MajorID integer)");
         db.execSQL("create table UserList "+"(ID integer primary key, CollegeID)");
@@ -61,16 +64,19 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public boolean insertCollege(String name, String state, String address, double latitude, double longitude, String region,
-                                 String NCAA, double tuition){
+                                 String NCAA, double tuition, String description){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("Name", name);
         contentValues.put("State", state);
         contentValues.put("Address", address);
+        contentValues.put("Latitude", latitude);
+        contentValues.put("Longitude", longitude);
         contentValues.put("Region", region);
         contentValues.put("NCAA", NCAA);
         contentValues.put("Tuition", tuition);
+        contentValues.put("Description", description);
 
         db.insert("Colleges", null, contentValues);
         return true;
@@ -129,7 +135,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public boolean updateCollege(Integer id, String name, String state, String address, int latitude, int longitude,
-                                 String region, String NCAA, double tuition){
+                                 String region, String NCAA, double tuition, String description){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -141,6 +147,7 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put("Region", region);
         contentValues.put("NCAA", NCAA);
         contentValues.put("Tuition", tuition);
+        contentValues.put("Description", description);
 
         db.update("Colleges", contentValues, "id= ? ", new String[] {Integer.toString(id)});
         return true;
