@@ -8,11 +8,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
+    //TODO get lat and long from college db table
+    public Database db = new Database(getApplicationContext());
+
+    private static final LatLng UDEL = new LatLng(39.678776, -75.750611);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        Marker mUDel = mMap.addMarker(new MarkerOptions()
+                .position(UDEL)
+                .title("University of Delaware"));
+        mUDel.setTag(0);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(UDEL));
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
     }
 }
