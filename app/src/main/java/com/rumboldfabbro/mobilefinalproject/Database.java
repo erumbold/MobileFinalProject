@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
 
-    //TODO populate cmlinks and Majors tables
+    //TODO populate cmlinks table
     public static final String db_name = "myDB.db";
 
     public static final String college_table_name = "Colleges";
@@ -22,6 +22,8 @@ public class Database extends SQLiteOpenHelper {
     public static final String colleges_column_name = "Name";
     public static final String colleges_column_state = "State";
     public static final String colleges_column_address = "Address";
+    public static final String colleges_column_latitude = "Latitude";
+    public static final String colleges_column_longitude = "Longitude";
     public static final String colleges_column_region = "Region";
     public static final String colleges_column_rank = "Rank";
     public static final String colleges_column_NCAA = "NCAA";
@@ -119,28 +121,46 @@ public class Database extends SQLiteOpenHelper {
         return res;
     }
 
-    public Cursor getName(String table, int name){
+    public String getNameByCollege(int college){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select name from "+table+" where name="+name+"", null);
-        return res;
+        Cursor res = db.rawQuery("select Name from Colleges where ID="+college+"", null);
+        return res.getString(0);
     }
 
-    public Cursor getAddress(String table, int name){
+    public String getAddressByCollege(int college){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select address from "+table+" where name="+name+"", null);
-        return res;
+        Cursor res = db.rawQuery("select Address from Colleges where ID="+college+"", null);
+        return res.getString(0);
     }
 
-    public Cursor getLat(String table, int name){
+    public double getLatByCollege(int college){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select latitude from "+table+" where name="+name+"", null);
-        return res;
+        Cursor res = db.rawQuery("select Latitude from Colleges where ID="+college+"", null);
+        return res.getDouble(0);
     }
 
-    public Cursor getLong(String table, int name){
+    public double getLongByCollege(int college){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select longitude from "+table+" where name="+name+"", null);
-        return res;
+        Cursor res = db.rawQuery("select Longitude from Colleges where ID="+college+"", null);
+        return res.getDouble(0);
+    }
+
+    public int getCollegeID(String college){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from Colleges where Name="+college+"", null);
+        return res.getInt(0);
+    }
+
+    public String getCollegeByMajor(int major){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select collegeID from cmlinks where MajorID="+major+"", null);
+        return res.getString(0);
+    }
+
+    public int getMajorID(String major){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from Majors where Name="+major+"", null);
+        return res.getInt(0);
     }
 
     public int numberOfRows(String table){

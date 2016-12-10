@@ -53,12 +53,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-        for (int i =0; i<6; i++){
-            db.getLat("Colleges",i);
-            db.getLong("Colleges",i);
+        for (int i =1; i<6; i++){
+            db.getLatByCollege(i);
+            db.getLongByCollege(i);
             //TODO fix createMarker, we need to remove getIconResID
-            createMarker(markersArray.get(i).getLat("Colleges",i), markersArray.get(i).getLong("Colleges",i),
-                    markersArray.get(i).getName("Colleges",i), markersArray.get(i).getAddress("College",i));
+            createMarker(markersArray.get(i).getLatByCollege(i), markersArray.get(i).getLongByCollege(i),
+                    markersArray.get(i).getNameByCollege(i), markersArray.get(i).getAddressByCollege(i));
         }
 
 

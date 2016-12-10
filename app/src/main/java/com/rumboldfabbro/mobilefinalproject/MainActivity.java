@@ -1,23 +1,44 @@
 package com.rumboldfabbro.mobilefinalproject;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import java.io.*;
 
 public class MainActivity extends AppCompatActivity {
     private Button profile, search, savedlist, about;
     private Database db;
-//
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        BufferedReader r = null;
+        try {
+            r = new BufferedReader(new InputStreamReader(getAssets().open("majors.txt")));
+            String mLine;
+            int count = 1;
+            while ((mLine = r.readLine()) != null){
+                db.insertMajor(mLine);
+                db.insertCmlink(3, count);
+                count++;
+            }
+        } catch (IOException e){
+        } finally {
+            if (r != null){
+                try {
+                    r.close();
+                } catch (IOException e){}
+            }
+        }
+
+
         db = new Database(this);
 
-        db.insertCollege("Delaware College of Art and Design", "DE", "600 N. Market Street", 39.742097, -75.549831, "North", "N/A", 29167, "");
         db.insertCollege("Delaware State University", "DE", "1200 N. DuPont Highway", 39.187834, -75.541644, "North", "Division I: Mid-Eastern", 7532, "");
         db.insertCollege("Goldey-Beacom College", "DE", "4701 Limestone Road", 39.741787, -75.689544, "North", "N/A", 11700, "");
         db.insertCollege("University of Delaware", "DE", "175 The Green", 39.678776, -75.750611, "North", "Division I: Colonial Athletics Association", 11540, "");

@@ -25,6 +25,7 @@
     <string name="search_searchbar">Search</string>
     <string name="search_submit">Submit</string>
     <string name="search_bymajor">Or search by major: </string>
+    <string name="search_results">No results.</string>
 
 
 </resources>

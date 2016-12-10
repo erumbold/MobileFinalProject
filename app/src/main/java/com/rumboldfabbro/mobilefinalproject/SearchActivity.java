@@ -84,14 +84,14 @@ public class SearchActivity extends Activity{
     }
 
     public void launchList1(View v){
-        Intent search = new Intent(this, ListActivity.class);
+        Intent search = new Intent(this, AttributeResultsActivity.class);
         search.putExtra("search", searchbar_entry);
         search.putExtra("attribute", attribute_entry);
         startActivity(search);
     }
 
     public void launchList2(View v){
-        Intent search = new Intent(this, ListActivity.class);
+        Intent search = new Intent(this, MajorResultsActivity.class);
         search.putExtra("major", major_entry);
         startActivity(search);
     }
