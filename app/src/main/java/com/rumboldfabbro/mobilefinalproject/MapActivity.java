@@ -58,8 +58,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
             db.getLong("Colleges",i);
             //TODO fix createMarker, we need to remove getIconResID
             createMarker(markersArray.get(i).getLat("Colleges",i), markersArray.get(i).getLong("Colleges",i),
-                    markersArray.get(i).getName("Colleges",i), markersArray.get(i).getAddress("College",i),
-                    markersArray.get(i).getIconResID());
+                    markersArray.get(i).getName("Colleges",i), markersArray.get(i).getAddress("College",i));
         }
 
 
@@ -71,7 +70,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
 
     }
 
-    protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID) {
+    protected Marker createMarker(double latitude, double longitude, String title, String snippet) {
 
         return mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
