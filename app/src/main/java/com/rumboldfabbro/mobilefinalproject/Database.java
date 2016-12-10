@@ -153,14 +153,32 @@ public class Database extends SQLiteOpenHelper {
 
     public String getCollegeByMajor(int major){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select collegeID from cmlinks where MajorID="+major+"", null);
-        return res.getString(0);
+        int numRows = numberOfRows("Colleges");
+        String output = "";
+
+        for (int i = 0; i < numRows; i++){
+            Cursor res = db.rawQuery("select collegeID from cmlinks where MajorID="+major+" and ID="+i+"", null);
+            output += res.getString(0);
+        }
+        return output;
     }
 
     public int getMajorID(String major){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from Majors where Name="+major+"", null);
         return res.getInt(0);
+    }
+
+    public String getCollegeBySearch(String search, String attribute){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = numberOfRows("Colleges");
+        String output = "";
+
+        for (int i = 0; i < numRows; i++){
+            Cursor res = db.rawQuery("select Name from Colleges where "+attribute+"like '%"+search+"%' and ID="+i+"", null);
+            output += res.getString(0);
+        }
+        return output;
     }
 
     public int numberOfRows(String table){

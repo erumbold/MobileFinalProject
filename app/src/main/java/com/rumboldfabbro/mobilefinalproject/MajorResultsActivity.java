@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Created by erikarumbold on 12/10/16.
@@ -16,19 +17,16 @@ public class MajorResultsActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collegelist);
+        TextView results = (TextView) findViewById(R.id.results);
 
         Intent intent = getIntent();
         String major = intent.getStringExtra("major");
-        String output;
+        String output = db.getCollegeByMajor(db.getMajorID(major));
 
-        // iterate through cmlinks
-        // if major == major:
-        // add college to output string
-
-        output = db.getCollegeByMajor(db.getMajorID(major));
+        if (!output.equals("")) {
+            results.setText(output);
+        }
     }
-
-    //TODO populate view with search results
 
     public void goCreate(View v){
         finish();
