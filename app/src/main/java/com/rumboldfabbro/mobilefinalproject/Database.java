@@ -119,6 +119,18 @@ public class Database extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getName(String table, int name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select name from "+table+" where name="+name+"", null);
+        return res;
+    }
+
+    public Cursor getAddress(String table, int name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select address from "+table+" where name="+name+"", null);
+        return res;
+    }
+
     public Cursor getLat(String table, int name){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select latitude from "+table+" where name="+name+"", null);
