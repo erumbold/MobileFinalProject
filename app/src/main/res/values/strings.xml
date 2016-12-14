@@ -12,7 +12,7 @@
 
     <!-- ABOUT PAGE-->
     <string name="about_title">About the App</string>
-    <string name="about_description">A long time ago in a galaxy far far away...</string>
+    <string name="about_description">This app is meant to be a tool for students who are applying to colleges. Students can search for colleges and view their location on the map. SearchU is in its early stages, but there are many more features to come.</string>
 
     <!-- USER PROFILE -->
     <string name="profile_header">User Profile</string>

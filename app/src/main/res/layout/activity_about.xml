@@ -16,11 +16,12 @@
 
     <TextView
         android:text="@string/about_description"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="62dp"
+        android:id="@+id/about_description"
+        android:textSize="25sp"
+        android:layout_width="300dp"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp"
-        android:id="@+id/about_description"
-        android:textSize="14sp" />
+        android:textAlignment="center" />
 </RelativeLayout>
