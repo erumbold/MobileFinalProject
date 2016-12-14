@@ -3,11 +3,12 @@
     <string name="title_activity_map">Map</string>
 
     <!-- MAIN MENU -->
-    <string name="menu_title">App Name</string>
+    <string name="menu_title">SearchU</string>
     <string name="menu_profile">View Profile</string>
     <string name="menu_search">Search for Colleges</string>
     <string name="menu_savedlist">View Saved Colleges</string>
     <string name="menu_about">About the App</string>
+    <string name="menu_map">College Map</string>
 
     <!-- ABOUT PAGE-->
     <string name="about_title">About the App</string>
@@ -27,6 +28,5 @@
     <string name="search_bymajor">Or search by major: </string>
     <string name="search_results">No results.</string>
     <string name="search_category">Category:</string>
-
 
 </resources>

@@ -1,6 +1,5 @@
 package com.rumboldfabbro.mobilefinalproject;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.*;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +10,7 @@ import android.widget.Button;
 import java.io.*;
 
 public class MainActivity extends AppCompatActivity {
-    private Button profile, search, about;
+    private Button profile, search, about, map;
     private Database db;
 
     @Override
@@ -93,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         profile = (Button) findViewById(R.id.menu_profile);
         search = (Button) findViewById(R.id.menu_search);
         about = (Button) findViewById(R.id.menu_about);
+        map = (Button) findViewById(R.id.menu_map);
 
         profile.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -114,6 +114,13 @@ public class MainActivity extends AppCompatActivity {
                 activateAbout(v);
             }
         });
+
+        map.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                activateMap(v);
+            }
+        });
     }
 
     public void activateProfile(View v){
@@ -129,5 +136,10 @@ public class MainActivity extends AppCompatActivity {
     public void activateAbout(View v){
         Intent launchAbout = new Intent(this, AboutActivity.class);
         startActivity(launchAbout);
+    }
+
+    public void activateMap(View v){
+        Intent launchMap = new Intent(this, MapActivity.class);
+        startActivity(launchMap);
     }
 }

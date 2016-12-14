@@ -30,7 +30,6 @@ public class AttributeResultsActivity extends Activity{
         String attribute = intent.getStringExtra("attribute");
 
         String output = "";
-        String check = "";
         ArrayList<String> x = db.getData(attribute, search);
 
         for (int i = 0; i < x.size(); i++){

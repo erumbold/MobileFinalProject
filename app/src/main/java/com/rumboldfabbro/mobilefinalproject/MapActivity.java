@@ -1,10 +1,21 @@
 package com.rumboldfabbro.mobilefinalproject;
 
+import android.*;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,11 +30,11 @@ import java.util.ArrayList;
 public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
-    //TODO get lat and long from college db table
-    public Database db = new Database(getApplicationContext());
-
-
-    private static final LatLng UDEL = new LatLng(39.678776, -75.750611);
+    private boolean mPermissionDenied = false;
+    private Location mLastLocation;
+    private GoogleApiClient mGoogleApiClient;
+    private String mLatitudeText, mLongitudeText;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +44,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Create an instance of GoogleAPIClient.
+        // This is necessary to connect to Google services such as maps
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addScope(Drive.SCOPE_FILE)
+                .build();
     }
 
 
@@ -48,12 +66,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        ArrayList<Database> markersArray = new ArrayList<Database>();
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        enableMyLocation();
+        Database db = new Database(getApplicationContext());
 
         SQLiteDatabase data = db.getReadableDatabase();
         String[] projection = {"Name", "Address", "Latitude", "Longitude"};
@@ -64,23 +78,42 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         Cursor c = data.query("Colleges", projection, selection, selectionArgs, null, null, sortOrder);
         c.moveToFirst();
 
+        LatLng start = new LatLng(c.getDouble(c.getColumnIndex("Latitude")), c.getDouble(c.getColumnIndex("Longitude")));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(start));
+
         for (int i =1; i<6; i++){
             String name = c.getString(c.getColumnIndex("Name"));
             String address = c.getString(c.getColumnIndex("Address"));
             double lat = c.getDouble(c.getColumnIndex("Latitude"));
             double lng = c.getDouble(c.getColumnIndex("Longitude"));
-            //TODO fix createMarker, we need to remove getIconResID
             createMarker(lat, lng, name, address);
             c.moveToNext();
         }
+    }
 
+    /**
+     * Use the lifecycle methods to connect/disconnect to google services.
+     * Necessary for using maps
+     */
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
 
-        Marker mUDel = mMap.addMarker(new MarkerOptions()
-                .position(UDEL)
-                .title("University of Delaware"));
-        mUDel.setTag(0);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(UDEL));
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
 
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (mPermissionDenied) {
+            // Permission was not granted, display error dialog.
+            //showMissingPermissionError();
+            Log.v("onResumeFragments", "Permission was denied");
+            mPermissionDenied = false;
+        }
     }
 
     protected Marker createMarker(double latitude, double longitude, String title, String snippet) {
@@ -94,6 +127,73 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        marker.showInfoWindow();
         return false;
     }
+
+
+
+    /**
+     * Enables the My Location layer if the fine location permission has been granted.
+     */
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE
+            );
+            /*
+            ActivityCompat.requestPermissions(thisActivity,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            */
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
+            Log.v("enableMyLocation: ", "Permission granted");
+        }
+    }
+
+    /**
+     *  These next methods are used to obtain permissions for using maps
+     *
+     **/
+    @Override
+    // public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+    //                                       @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+            Log.v("onRequestPermRslt:  ", "enabled permissions");
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true;
+            Log.v("onRequestPermRslt:  ", "DISABLED permissions");
+        }
+    }
+
+    /**
+     * Checks if the result contains a {@link PackageManager#PERMISSION_GRANTED} result for a
+     * permission from a runtime permissions request.
+     *
+     * @see android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback
+     */
+    public static boolean isPermissionGranted(String[] grantPermissions, int[] grantResults,
+                                              String permission) {
+        for (int i = 0; i < grantPermissions.length; i++) {
+            if (permission.equals(grantPermissions[i])) {
+                return grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            }
+        }
+        return false;
+    }
+
 }
