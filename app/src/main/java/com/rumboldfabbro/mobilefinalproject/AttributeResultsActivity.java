@@ -29,22 +29,6 @@ public class AttributeResultsActivity extends Activity{
         String search = intent.getStringExtra("search");
         String attribute = intent.getStringExtra("attribute");
 
-    /*
-        SQLiteDatabase data = db.getReadableDatabase();
-        String[] projection = {"Name"};
-        String selection = attribute + " != ?";
-        String[] selectionArgs = {"%"+search+"%"};
-        String sortOrder = "ID";
-
-        Cursor c = data.query("Colleges", projection, selection, selectionArgs, null, null, sortOrder);
-        c.moveToFirst();
-
-        while (c.getString(c.getColumnIndex("Name")) != null){
-            output += c.getString(c.getColumnIndex("Name"));
-            c.moveToNext();
-        }
-        */
-
         String output = "";
         String check = "";
         ArrayList<String> x = db.getData(attribute, search);

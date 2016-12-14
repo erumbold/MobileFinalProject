@@ -35,14 +35,6 @@ public class SearchActivity extends Activity{
         major_submit = (Button) findViewById(R.id.search_submit2);
 
         loadSpinnerData();
-/*
-        searchbar.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-            @Override
-            public void onFocusChange(View v, boolean hasFocus){
-
-            }
-        });
-        */
 
         attribute_submit.setOnClickListener(new View.OnClickListener(){
             @Override

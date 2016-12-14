@@ -135,73 +135,7 @@ public class Database extends SQLiteOpenHelper {
         }
         return x;
     }
-    /*
-    public String getNameByCollege(int college){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select Name from Colleges where ID="+college+"", null);
-        return res.getString(0);
-    }
 
-    public String getAddressByCollege(int college){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select Address from Colleges where ID="+college+"", null);
-        return res.getString(0);
-    }
-
-    public double getLatByCollege(int college){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select Latitude from Colleges where ID="+college+"", null);
-        return res.getDouble(0);
-    }
-
-    public double getLongByCollege(int college){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select Longitude from Colleges where ID="+college+"", null);
-        return res.getDouble(0);
-    }
-
-    public int getCollegeID(String college){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Colleges where Name="+college+"", null);
-        return res.getInt(0);
-    }
-
-    public String getCollegeByMajor(int major){
-        SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = numberOfRows("Colleges");
-        String output = "";
-
-        for (int i = 0; i < numRows; i++){
-            Cursor res = db.rawQuery("select collegeID from cmlinks where MajorID="+major+" and ID="+i+"", null);
-            output += res.getString(0);
-        }
-        return output;
-    }
-
-    public int getMajorID(String major){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Majors where Name="+major+"", null);
-        return res.getInt(0);
-    }
-
-    public String getMajorName(int major){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select Name from Majors where ID="+major+"", null);
-        return res.getString(0);
-    }
-
-    public String getCollegeBySearch(String search, String attribute){
-        SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = numberOfRows("Colleges");
-        String output = "";
-
-        for (int i = 0; i < numRows; i++){
-            Cursor res = db.rawQuery("select Name from Colleges where "+attribute+"like '%"+search+"%' and ID="+i+"", null);
-            output += res.getString(0);
-        }
-        return output;
-    }
-    */
     public int numberOfRows(String table){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = 0;

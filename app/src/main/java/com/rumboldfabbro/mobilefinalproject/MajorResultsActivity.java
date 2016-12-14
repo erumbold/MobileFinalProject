@@ -56,28 +56,7 @@ public class MajorResultsActivity extends Activity{
             }
             c.moveToNext();
         }
-        /*
-        ArrayList<Integer> x = new ArrayList<>();
 
-        for (int i = 0; i < c.getCount(); i++){
-            x.add(c.getInt(c.getColumnIndex("CollegeID")));
-            c.moveToNext();
-        }
-
-        projection[0] = "Name";
-        for (int i = 0; i < x.size(); i++){
-            selection = "ID='"+x.get(i)+"'";
-            c = data.query("Colleges", projection, selection, null, null, null, sortOrder);
-        }
-
-        c.moveToFirst();
-
-        for (int i = 0; i < c.getCount(); i++){
-            String o = c.getString(c.getColumnIndex("Name")) + "\n";
-            c.moveToNext();
-            output += o;
-        }
-        */
         if (!output.equals("")) {
             results.setText(output);
         }
