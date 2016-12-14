@@ -17,25 +17,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/profile_name"
         android:ems="10"
         android:layout_below="@+id/profile_header"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="84dp"
         android:id="@+id/profile_name"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:hint="@string/profile_name" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:text="@string/profile_school"
         android:ems="10"
         android:layout_marginTop="30dp"
         android:id="@+id/profile_school"
         android:layout_below="@+id/profile_name"
         android:layout_alignLeft="@+id/profile_name"
-        android:layout_alignStart="@+id/profile_name" />
+        android:layout_alignStart="@+id/profile_name"
+        android:hint="@string/profile_school" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -47,12 +47,13 @@
         android:layout_marginEnd="9dp"
         android:id="@+id/profile_major" />
 
-    <Button
-        android:text="@string/profile_savedlist"
+    <TextView
+        android:text="@string/profile_intendedmajor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_major"
+        android:layout_above="@+id/profile_major"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="73dp"
-        android:id="@+id/profile_savedlist" />
+        android:layout_marginBottom="6dp"
+        android:id="@+id/profile_intendedmajor" />
+
 </RelativeLayout>

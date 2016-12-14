@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class ProfileActivity extends Activity {
     private EditText name, school;
     private Spinner major;
-    private Button saved_list;
     private SharedPreferences.Editor myEd;
 
     @Override
@@ -30,8 +29,7 @@ public class ProfileActivity extends Activity {
         name = (EditText) findViewById(R.id.profile_name);
         school = (EditText) findViewById(R.id.profile_school);
         major = (Spinner) findViewById(R.id.profile_major);
-        saved_list = (Button) findViewById(R.id.profile_savedlist);
-        final SharedPreferences userPref = getApplicationContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences userPref = getApplicationContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
 
 
         loadSpinnerData();
@@ -42,6 +40,7 @@ public class ProfileActivity extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus){
                 myEd.putString("name", name.getText().toString());
+                myEd.commit();
             }
         });
 
@@ -49,14 +48,7 @@ public class ProfileActivity extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus){
                 myEd.putString("school", school.getText().toString());
-            }
-        });
-
-        saved_list.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
                 myEd.commit();
-
             }
         });
     }
@@ -75,7 +67,7 @@ public class ProfileActivity extends Activity {
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
         String major = parent.getItemAtPosition(position).toString();
         myEd.putString("major", major);
+        myEd.commit();
 
     }
-
 }

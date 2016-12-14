@@ -22,49 +22,30 @@
         android:layout_marginTop="75dp" />
 
     <Button
-        android:text="@string/menu_profile"
+        android:text="@string/menu_about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="86dp"
-        android:id="@+id/menu_profile"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_below="@+id/menu_title"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/menu_about"
+        android:layout_marginTop="115dp"
+        android:layout_below="@+id/menu_profile"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="@string/menu_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/menu_search"
-        android:layout_alignBaseline="@+id/menu_profile"
-        android:layout_alignBottom="@+id/menu_profile"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="14dp"
-        android:layout_marginEnd="14dp" />
-
-    <Button
-        android:text="@string/menu_savedlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
-        android:id="@+id/menu_savedlist"
         android:layout_below="@+id/menu_profile"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
 
     <Button
-        android:text="@string/menu_about"
+        android:text="@string/menu_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/menu_about"
-        android:layout_alignBaseline="@+id/menu_savedlist"
-        android:layout_alignBottom="@+id/menu_savedlist"
-        android:layout_alignLeft="@+id/menu_search"
-        android:layout_alignStart="@+id/menu_search"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp" />
+        android:layout_marginTop="68dp"
+        android:id="@+id/menu_profile"
+        android:layout_below="@+id/menu_title"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

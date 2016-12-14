@@ -17,7 +17,7 @@
     <string name="profile_header">User Profile</string>
     <string name="profile_name">Name</string>
     <string name="profile_school">High School</string>
-    <string name="profile_savedlist">See Saved Colleges</string>
+    <string name="profile_intendedmajor">Intended Major:</string>
 
     <!-- COLLEGE SEARCH -->
     <string name="search_header">College Search</string>
@@ -26,6 +26,7 @@
     <string name="search_submit">Submit</string>
     <string name="search_bymajor">Or search by major: </string>
     <string name="search_results">No results.</string>
+    <string name="search_category">Category:</string>
 
 
 </resources>

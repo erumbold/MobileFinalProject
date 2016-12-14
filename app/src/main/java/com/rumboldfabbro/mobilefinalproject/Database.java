@@ -115,6 +115,7 @@ public class Database extends SQLiteOpenHelper {
         return true;
     }
 
+    /*
     public Cursor getData(String table, int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from "+table+" where id="+id+"", null);
@@ -169,6 +170,12 @@ public class Database extends SQLiteOpenHelper {
         return res.getInt(0);
     }
 
+    public String getMajorName(int major){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select Name from Majors where ID="+major+"", null);
+        return res.getString(0);
+    }
+
     public String getCollegeBySearch(String search, String attribute){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = numberOfRows("Colleges");
@@ -180,7 +187,7 @@ public class Database extends SQLiteOpenHelper {
         }
         return output;
     }
-
+    */
     public int numberOfRows(String table){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = 0;

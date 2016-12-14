@@ -38,12 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:text="@string/search_searchbar"
         android:ems="10"
         android:layout_marginTop="34dp"
         android:id="@+id/search_bar"
         android:layout_below="@+id/search_byterm"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:hint="@string/search_searchbar" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -80,4 +80,12 @@
         android:layout_alignStart="@+id/search_submit1"
         android:layout_marginTop="37dp"
         android:id="@+id/search_submit2" />
+
+    <TextView
+        android:text="@string/search_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView3" />
 </RelativeLayout>

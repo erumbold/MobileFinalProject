@@ -2,6 +2,8 @@ package com.rumboldfabbro.mobilefinalproject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +13,6 @@ import android.widget.TextView;
  */
 
 public class AttributeResultsActivity extends Activity{
-    public Database db = new Database(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +20,27 @@ public class AttributeResultsActivity extends Activity{
         setContentView(R.layout.activity_collegelist);
         TextView results = (TextView) findViewById(R.id.results);
 
+        Database db = new Database(getApplicationContext());
+
         Intent intent = getIntent();
         String search = intent.getStringExtra("search");
         String attribute = intent.getStringExtra("attribute");
-        String output = db.getCollegeBySearch(search, attribute);
+
+        SQLiteDatabase data = db.getReadableDatabase();
+        String[] projection = {"Name"};
+        String selection = attribute + " != ?";
+        String[] selectionArgs = {"%"+search+"%"};
+        String sortOrder = "ID";
+
+        Cursor c = data.query("Colleges", projection, selection, selectionArgs, null, null, sortOrder);
+        c.moveToFirst();
+
+        String output = "";
+
+        while (c.getString(c.getColumnIndex("Name")) != null){
+            output += c.getString(c.getColumnIndex("Name"));
+            c.moveToNext();
+        }
 
         if (!output.equals("")) {
             results.setText(output);

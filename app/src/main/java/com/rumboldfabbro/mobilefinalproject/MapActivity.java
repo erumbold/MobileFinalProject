@@ -1,5 +1,7 @@
 package com.rumboldfabbro.mobilefinalproject;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -53,12 +55,23 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
+        SQLiteDatabase data = db.getReadableDatabase();
+        String[] projection = {"Name", "Address", "Latitude", "Longitude"};
+        String selection = "ID != ?";
+        String[] selectionArgs = {""};
+        String sortOrder = "ID";
+
+        Cursor c = data.query("Colleges", projection, selection, selectionArgs, null, null, sortOrder);
+        c.moveToFirst();
+
         for (int i =1; i<6; i++){
-            db.getLatByCollege(i);
-            db.getLongByCollege(i);
+            String name = c.getString(c.getColumnIndex("Name"));
+            String address = c.getString(c.getColumnIndex("Address"));
+            double lat = c.getDouble(c.getColumnIndex("Latitude"));
+            double lng = c.getDouble(c.getColumnIndex("Longitude"));
             //TODO fix createMarker, we need to remove getIconResID
-            createMarker(markersArray.get(i).getLatByCollege(i), markersArray.get(i).getLongByCollege(i),
-                    markersArray.get(i).getNameByCollege(i), markersArray.get(i).getAddressByCollege(i));
+            createMarker(lat, lng, name, address);
+            c.moveToNext();
         }
 
 
