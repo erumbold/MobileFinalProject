@@ -31,7 +31,6 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
 
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
-    private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private String mLatitudeText, mLongitudeText;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
