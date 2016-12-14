@@ -35,13 +35,14 @@ public class SearchActivity extends Activity{
         major_submit = (Button) findViewById(R.id.search_submit2);
 
         loadSpinnerData();
-
+/*
         searchbar.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus){
-                searchbar_entry = searchbar.getText().toString();
+
             }
         });
+        */
 
         attribute_submit.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -84,6 +85,8 @@ public class SearchActivity extends Activity{
     }
 
     public void launchList1(View v){
+        searchbar_entry = searchbar.getText().toString();
+        attribute_entry = attribute.getSelectedItem().toString();
         Intent search = new Intent(this, AttributeResultsActivity.class);
         search.putExtra("search", searchbar_entry);
         search.putExtra("attribute", attribute_entry);
@@ -91,6 +94,7 @@ public class SearchActivity extends Activity{
     }
 
     public void launchList2(View v){
+        major_entry = major.getSelectedItem().toString();
         Intent search = new Intent(this, MajorResultsActivity.class);
         search.putExtra("major", major_entry);
         startActivity(search);

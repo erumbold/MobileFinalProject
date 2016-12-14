@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -115,13 +117,25 @@ public class Database extends SQLiteOpenHelper {
         return true;
     }
 
-    /*
-    public Cursor getData(String table, int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from "+table+" where id="+id+"", null);
-        return res;
-    }
 
+    public ArrayList<String> getData(String attribute, String search){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select Name from Colleges where "+attribute+" like '%"+search+"%'", null);
+        res.moveToFirst();
+        ArrayList<String> x = new ArrayList<>();
+        if (!res.getString(res.getColumnIndex("Name")).isEmpty()) {
+            while (!res.isLast()) {
+                String c = res.getString(res.getColumnIndex("Name"));
+                if (c.contains(search)) {
+                    x.add(c);
+                }
+                res.moveToNext();
+            }
+            x.add(res.getString(res.getColumnIndex("Name")));
+        }
+        return x;
+    }
+    /*
     public String getNameByCollege(int college){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select Name from Colleges where ID="+college+"", null);

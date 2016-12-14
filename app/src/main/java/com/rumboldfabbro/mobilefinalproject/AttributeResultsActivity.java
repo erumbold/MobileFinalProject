@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by erikarumbold on 12/3/16.
  */
@@ -23,9 +25,11 @@ public class AttributeResultsActivity extends Activity{
         Database db = new Database(getApplicationContext());
 
         Intent intent = getIntent();
+
         String search = intent.getStringExtra("search");
         String attribute = intent.getStringExtra("attribute");
 
+    /*
         SQLiteDatabase data = db.getReadableDatabase();
         String[] projection = {"Name"};
         String selection = attribute + " != ?";
@@ -35,11 +39,21 @@ public class AttributeResultsActivity extends Activity{
         Cursor c = data.query("Colleges", projection, selection, selectionArgs, null, null, sortOrder);
         c.moveToFirst();
 
-        String output = "";
-
         while (c.getString(c.getColumnIndex("Name")) != null){
             output += c.getString(c.getColumnIndex("Name"));
             c.moveToNext();
+        }
+        */
+
+        String output = "";
+        String check = "";
+        ArrayList<String> x = db.getData(attribute, search);
+
+        for (int i = 0; i < x.size(); i++){
+            if (!output.contains(x.get(i))) {
+                output += (x.get(i) + "\n\n");
+
+            }
         }
 
         if (!output.equals("")) {

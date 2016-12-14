@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 
 public class MajorResultsActivity extends Activity{
-    public Database db = new Database(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,53 +22,67 @@ public class MajorResultsActivity extends Activity{
         setContentView(R.layout.activity_collegelist);
         TextView results = (TextView) findViewById(R.id.results);
 
+        Database db = new Database(getApplicationContext());
         Intent intent = getIntent();
         String major = intent.getStringExtra("major");
 
         SQLiteDatabase data = db.getReadableDatabase();
-        String[] projection = {"MajorID"};
-        String selection = "Name != ?";
-        String[] selectionArgs = {major};
+        String[] projection = {"ID"};
+        String selection = "Name='"+major+"'";
         String sortOrder = "ID";
 
-        Cursor c = data.query("Majors", projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor c = data.query("Majors", projection, selection, null, null, null, sortOrder);
         c.moveToFirst();
-        while (!c.getString(c.getColumnIndex("Name")).equals(major)){
-            c.moveToNext();
-        }
         int major_id = c.getInt(c.getColumnIndex("ID"));
 
         projection[0] = "CollegeID";
-        selection = "MajorID != ?";
-        selectionArgs[0] = major_id+"";
-        c = data.query("cmlinks", projection, selection, selectionArgs, null, null, sortOrder);
+        selection = "MajorID='"+major_id+"'";
+        c = data.query("cmlinks", projection, selection, null, null, null, sortOrder);
         c.moveToFirst();
 
+        String output = "";
+        for (int i = 0; i < c.getCount(); i++) {
+            int clg = c.getInt(c.getColumnIndex("CollegeID"));
+            if (clg == 1 && !output.contains("State")) {
+                output += "Delaware State University\n\n";
+            } else if (clg == 2 && !output.contains("Beacom")) {
+                output += "Goldey-Beacom College\n\n";
+            } else if (clg == 3 && !output.contains("University of Delaware")) {
+                output += "University of Delaware\n\n";
+            } else if (clg == 4 && !output.contains("Wesley")) {
+                output += "Wesley College\n\n";
+            } else if (clg == 5 && !output.contains("Wilmington")) {
+                output += "Wilmington University\n\n";
+            }
+            c.moveToNext();
+        }
+        /*
         ArrayList<Integer> x = new ArrayList<>();
 
-        while (!c.isAfterLast()){
-            x.add(c.getInt(c.getColumnIndex("ID")));
+        for (int i = 0; i < c.getCount(); i++){
+            x.add(c.getInt(c.getColumnIndex("CollegeID")));
             c.moveToNext();
         }
 
-        String[] args = new String[x.size()];
-        for (int i = 0; i < x.size(); i++){
-            args[i] = x.get(i)+"";
-        }
-
         projection[0] = "Name";
-        selection = "ID != ?";
-        c = data.query("Colleges", projection, selection, args, null, null, sortOrder);
-
-        String output = "";
-
-        while (!c.isAfterLast()){
-            output += c.getString(c.getColumnIndex("Name"));
+        for (int i = 0; i < x.size(); i++){
+            selection = "ID='"+x.get(i)+"'";
+            c = data.query("Colleges", projection, selection, null, null, null, sortOrder);
         }
 
+        c.moveToFirst();
+
+        for (int i = 0; i < c.getCount(); i++){
+            String o = c.getString(c.getColumnIndex("Name")) + "\n";
+            c.moveToNext();
+            output += o;
+        }
+        */
         if (!output.equals("")) {
             results.setText(output);
         }
+
+        c.close();
     }
 
     public void goCreate(View v){

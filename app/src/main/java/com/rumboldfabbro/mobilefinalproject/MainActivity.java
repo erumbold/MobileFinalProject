@@ -1,5 +1,6 @@
 package com.rumboldfabbro.mobilefinalproject;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.*;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,10 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = new Database(this);
-
-        SQLiteDatabase data = db.getWritableDatabase();
-
-        data.insert("Colleges", null, )
 
         db.insertCollege("Delaware State University", "DE", "1200 N. DuPont Highway", 39.187834, -75.541644, "North", "Division I: Mid-Eastern", 7532, "");
         db.insertCollege("Goldey-Beacom College", "DE", "4701 Limestone Road", 39.741787, -75.689544, "North", "N/A", 11700, "");
@@ -45,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 db.insertMajor(mLine);
             }
 
-            SQLiteDatabase d = db.getReadableDatabase();
+            SQLiteDatabase data = db.getReadableDatabase();
             String[] projection = {"Name"};
             String selection = "ID != ?";
             String[] selectionArgs = {""};
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
             c.moveToFirst();
 
-            for (int i = 1; i <= db.numberOfRows("Majors"); i++){
+            for (int i = 1; i <= c.getCount(); i++){
                 while ((nLine = dsu.readLine()) != null){
                     if (nLine.equals(c.getString(c.getColumnIndex("Name")))){
                         db.insertCmlink(1, i);
