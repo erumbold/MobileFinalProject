@@ -15,8 +15,8 @@ public class College {
     private double tuition;
     private String description;
 
+    // constructors
     public College(){}
-
     public College(int id, String name, String address, double latitude, double longitude, String region, String NCAA, double tuition, String description){
         this.id = id;
         this.name = name;
@@ -29,6 +29,7 @@ public class College {
         this.description = description;
     }
 
+    // setters
     public void setId(int id){this.id = id;}
     public void setName(String name){this.name = name;}
     public void setAddress(String address){this.address = address;}
@@ -39,6 +40,7 @@ public class College {
     public void setTuition(double tuition){this.tuition = tuition;}
     public void setDescription(String description){this.description = description;}
 
+    // getters
     public int getId(){return this.id;}
     public String getName(){return this.name;}
     public String getAddress(){return this.address;}

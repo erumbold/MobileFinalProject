@@ -13,6 +13,11 @@ public class MainActivity extends AppCompatActivity {
     private Button profile, search, about, map;
     private Database db;
 
+    /**********************************************************************************************
+     * This function is called when the app is opened. The database is created and the tables are
+     * populated. Button listeners are implemented.
+     * @param savedInstanceState
+     **********************************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /***********************************************************************************************
+     * These functions are called by the corresponding Button listeners to inflate the appropriate
+     * Activity.
+     * @param v
+     **********************************************************************************************/
     public void activateProfile(View v){
         Intent launchProfile = new Intent(this, ProfileActivity.class);
         startActivity(launchProfile);

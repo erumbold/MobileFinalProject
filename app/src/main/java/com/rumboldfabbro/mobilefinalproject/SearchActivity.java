@@ -22,7 +22,10 @@ public class SearchActivity extends Activity{
     private Button attribute_submit, major_submit;
     private String searchbar_entry, attribute_entry, major_entry;
 
-
+    /************************************************************************************************
+     * This is called when the Activity is launched. The appropriate listeners are implemented.
+     * @param savedInstanceState
+     ***********************************************************************************************/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,10 @@ public class SearchActivity extends Activity{
         });
     }
 
+    /************************************************************************************************
+     * This is called within onCreate(). It populates the Spinners with the attributes of the
+     * Colleges table and the elements of the Majors table, respectively.
+     ***********************************************************************************************/
     public void loadSpinnerData() {
         Database db = new Database(getApplicationContext());
 
@@ -65,6 +72,13 @@ public class SearchActivity extends Activity{
         attribute.setAdapter(aAdapter);
     }
 
+    /************************************************************************************************
+     * This is called when a value is selected in a Spinner.
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     ***********************************************************************************************/
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
         switch (parent.getId()){
             case R.id.search_attribute:
@@ -76,6 +90,11 @@ public class SearchActivity extends Activity{
         }
     }
 
+    /************************************************************************************************
+     * This is called by the corresponding Button listener. The values in the EditText and
+     * the Attribute Spinner is stored in an Intent, which is passed to AttributeResultsActivity.java
+     * @param v
+     ***********************************************************************************************/
     public void launchList1(View v){
         searchbar_entry = searchbar.getText().toString();
         attribute_entry = attribute.getSelectedItem().toString();
@@ -85,6 +104,11 @@ public class SearchActivity extends Activity{
         startActivity(search);
     }
 
+    /************************************************************************************************
+     * This is called by the corresponding Button listener. The value in the Major Spinner is stored
+     * in an Intent, which is passed to MajorResultsActivity.java
+     * @param v
+     ***********************************************************************************************/
     public void launchList2(View v){
         major_entry = major.getSelectedItem().toString();
         Intent search = new Intent(this, MajorResultsActivity.class);

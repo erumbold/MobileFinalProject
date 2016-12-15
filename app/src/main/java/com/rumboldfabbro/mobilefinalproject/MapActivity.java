@@ -32,9 +32,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private GoogleApiClient mGoogleApiClient;
-    private String mLatitudeText, mLongitudeText;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
+    /***********************************************************************************************
+     * This is called when the Activity is launched. It creates an instance of GoogleAPIClient and
+     * makes the Map Fragment supported by the Activity.
+     * @param savedInstanceState
+     **********************************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +57,14 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
     }
 
 
-    /**
+    /************************************************************************************************
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
-     */
+     * It calls createMarker() to make a marker for each college.
+     ***********************************************************************************************/
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -90,10 +93,10 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         }
     }
 
-    /**
+    /************************************************************************************************
      * Use the lifecycle methods to connect/disconnect to google services.
      * Necessary for using maps
-     */
+     ***********************************************************************************************/
     protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
@@ -115,6 +118,15 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         }
     }
 
+    /***********************************************************************************************
+     * This function creates a marker using the parameters for the marker's position,
+     * title, and snippet.
+     * @param latitude
+     * @param longitude
+     * @param title
+     * @param snippet
+     * @return
+     **********************************************************************************************/
     protected Marker createMarker(double latitude, double longitude, String title, String snippet) {
 
         return mMap.addMarker(new MarkerOptions()
@@ -132,9 +144,9 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
 
 
 
-    /**
+    /************************************************************************************************
      * Enables the My Location layer if the fine location permission has been granted.
-     */
+     ***********************************************************************************************/
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -154,10 +166,10 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         }
     }
 
-    /**
+    /************************************************************************************************
      *  These next methods are used to obtain permissions for using maps
      *
-     **/
+     ************************************************************************************************/
     @Override
     // public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
     //                                       @NonNull int[] grantResults) {
@@ -179,12 +191,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnMarkerC
         }
     }
 
-    /**
+    /************************************************************************************************
      * Checks if the result contains a {@link PackageManager#PERMISSION_GRANTED} result for a
      * permission from a runtime permissions request.
      *
      * @see android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback
-     */
+     ***********************************************************************************************/
     public static boolean isPermissionGranted(String[] grantPermissions, int[] grantResults,
                                               String permission) {
         for (int i = 0; i < grantPermissions.length; i++) {

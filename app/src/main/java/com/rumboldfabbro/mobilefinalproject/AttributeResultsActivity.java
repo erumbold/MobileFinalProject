@@ -16,6 +16,12 @@ import java.util.ArrayList;
 
 public class AttributeResultsActivity extends Activity{
 
+    /***********************************************************************************************
+     * This function is called when the Activity is launched. A pointer to the database is created.
+     * Intent data is used to search the database for college names corresponding to a search of
+     * elements in a certain attribute. A string is created to populate a TextView listing the colleges.
+     * @param savedInstanceState
+     **********************************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

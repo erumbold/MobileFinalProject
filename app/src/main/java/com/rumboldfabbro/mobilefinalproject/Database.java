@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
 
-    //TODO populate cmlinks table
     public static final String db_name = "myDB.db";
 
     public static final String college_table_name = "Colleges";
@@ -41,33 +40,52 @@ public class Database extends SQLiteOpenHelper {
     public static final String majors_column_id = "ID";
     public static final String majors_column_name = "Name";
 
-    public static final String ulist_table_name = "UserList";
-    public static final String ulist_column_id = "ID";
-    public static final String ulist_column_name = "CollegeID";
-
     public Database(Context context){
         super(context, db_name, null, 1);
     }
 
+    /************************************************************************************************
+     * This is called when an instance of Database is created. It creates the tables in the database.
+     * @param db
+     ***********************************************************************************************/
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table Colleges "+"(ID integer primary key, Name text, State text, Latitude integer, Longitude integer, Address text, " +
                 "Region text, NCAA text, Tuition real, Description text)");
         db.execSQL("create table Majors "+"(ID integer primary key, Name text)");
         db.execSQL("create table cmlinks "+"(ID integer primary key, CollegeID integer, MajorID integer)");
-        db.execSQL("create table UserList "+"(ID integer primary key, CollegeID)");
     }
 
+    /************************************************************************************************
+     * This function wipes the database of its tables.
+     * @param db
+     * @param oldV
+     * @param newV
+     ***********************************************************************************************/
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldV, int newV){
         db.execSQL("DROP TABLE IF EXISTS Colleges");
         db.execSQL("DROP TABLE IF EXISTS Majors");
         db.execSQL("DROP TABLE IF EXISTS cmlinks");
-        db.execSQL("DROP TABLE IF EXISTS UserList");
         onCreate(db);
     }
 
-    public boolean insertCollege(String name, String state, String address, double latitude, double longitude, String region,
+    /************************************************************************************************
+     * This function adds a college to the Colleges table using the parameters to populate
+     * the attributes for the college.
+     * @param name
+     * @param state
+     * @param address
+     * @param latitude
+     * @param longitude
+     * @param region
+     * @param NCAA
+     * @param tuition
+     * @param description
+     * @return
+     ***********************************************************************************************/
+    public boolean insertCollege(String name, String state, String address,
+                                 double latitude, double longitude, String region,
                                  String NCAA, double tuition, String description){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -86,6 +104,11 @@ public class Database extends SQLiteOpenHelper {
         return true;
     }
 
+    /************************************************************************************************
+     * This function adds a major to the Majors table.
+     * @param name
+     * @return
+     ***********************************************************************************************/
     public boolean insertMajor(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -96,6 +119,12 @@ public class Database extends SQLiteOpenHelper {
         return true;
     }
 
+    /************************************************************************************************
+     * This function creates a link between a college and major using their respective IDs.
+     * @param college_id
+     * @param major_id
+     * @return
+     ***********************************************************************************************/
     public boolean insertCmlink(int college_id, int major_id){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -107,17 +136,12 @@ public class Database extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertUlist(int college_id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("CollegeID", college_id);
-
-        db.insert("UserList", null, contentValues);
-        return true;
-    }
-
-
+    /************************************************************************************************
+     * This function searches through the Colleges table given a certain attribute and search term.
+     * @param attribute
+     * @param search
+     * @return an ArrayList consisting of the college names that satisfies the search query.
+     ***********************************************************************************************/
     public ArrayList<String> getData(String attribute, String search){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select Name from Colleges where "+attribute+" like '%"+search+"%'", null);
@@ -136,91 +160,10 @@ public class Database extends SQLiteOpenHelper {
         return x;
     }
 
-    public int numberOfRows(String table){
-        SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = 0;
-        if (table.equals("Colleges")){
-            numRows = (int) DatabaseUtils.queryNumEntries(db, college_table_name);
-        } else if (table.equals("Majors")){
-            numRows = (int) DatabaseUtils.queryNumEntries(db, majors_table_name);
-        } else if (table.equals("cmlinks")){
-            numRows = (int) DatabaseUtils.queryNumEntries(db, cmlink_table_name);
-        } else if (table.equals("UserList")){
-            numRows = (int) DatabaseUtils.queryNumEntries(db, ulist_table_name);
-        }
-        return numRows;
-    }
-
-    public boolean updateCollege(Integer id, String name, String state, String address, int latitude, int longitude,
-                                 String region, String NCAA, double tuition, String description){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("Name", name);
-        contentValues.put("Address", address);
-        contentValues.put("Latitude", latitude);
-        contentValues.put("Longitude", longitude);
-        contentValues.put("State", state);
-        contentValues.put("Region", region);
-        contentValues.put("NCAA", NCAA);
-        contentValues.put("Tuition", tuition);
-        contentValues.put("Description", description);
-
-        db.update("Colleges", contentValues, "id= ? ", new String[] {Integer.toString(id)});
-        return true;
-    }
-
-    public boolean updateMajor(Integer id, String name){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("Name", name);
-
-        db.update("Majors", contentValues, "id= ? ", new String[] {Integer.toString(id)});
-        return true;
-    }
-
-    public boolean updateCmlink(Integer id, Integer college_id, Integer major_id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("CollegeID", college_id);
-        contentValues.put("MajorID", major_id);
-
-        db.update("cmlinks", contentValues, "id= ? ", new String[] {Integer.toString(id)});
-        return true;
-    }
-
-    public boolean updateUlist(Integer id, Integer college_id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("CollegeID", college_id);
-
-        db.update("UserList", contentValues, "id= ? ", new String[] {Integer.toString(id)});
-        return true;
-    }
-
-    public Integer deleteCollege(Integer id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("Colleges", "id = ? ", new String[] {Integer.toString(id)});
-    }
-
-    public Integer deleteMajor(Integer id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("Majors", "id = ? ", new String[] {Integer.toString(id)});
-    }
-
-    public Integer deleteCmlink(Integer id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("cmlinks", "id = ? ", new String[] {Integer.toString(id)});
-    }
-
-    public Integer deleteUlist(Integer id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("UserList", "id = ? ", new String[] {Integer.toString(id)});
-    }
-
+    /************************************************************************************************
+     * This creates an ArrayList consisting every major name in the Majors table
+     * @return ArrayList arrayList
+     ***********************************************************************************************/
     public ArrayList<String> listMajors(){
         ArrayList<String> arrayList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -234,6 +177,10 @@ public class Database extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    /************************************************************************************************
+     * This creates an ArrayList consisting of every attribute in the Colleges table
+     * @return ArrayList arrayList
+     ***********************************************************************************************/
     public ArrayList<String> listAttributes(){
         ArrayList<String> arrayList = new ArrayList<String>();
 
